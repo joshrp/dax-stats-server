@@ -1,0 +1,13 @@
+[
+	{
+		"id": 51972,
+		"name": "homepage-stream",
+		"params": {
+			"app_version": "1*",
+			"app_type": "responsive",
+			"app_name": "iplayer",
+			"name": "iplayer.tv.episode.*page",
+			"prev_page_type": "home"
+		}
+	}
+]
