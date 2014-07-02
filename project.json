@@ -1,0 +1,15 @@
+{
+    "name": "iplayer-dax-stats",
+    "handle": [
+        {
+            "path": "/",
+            "https": true,
+            "allow_dev_certs": true,
+            "allow_desktop_certs": true,
+            "client_certs": "require"
+        }
+    ],
+    "packaging" : {
+        "type" : "nodejs_service"
+    }
+}
