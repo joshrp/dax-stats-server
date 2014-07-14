@@ -14,8 +14,9 @@ var buildDaxUrl = function (feed) {
 		site: config.site,
 		password: config.password,
 		username: config.username,
-		startDate: 'today',
-		endDate: 'today'
+		startDate: 'yesterday',
+		endDate: 'yesterday',
+		eventFilterId: feed.eventFilter
 	}
 	Object.keys(feed.params).forEach(function (k) {
 		replacements.params.push(k + ':' + feed.params[k]);

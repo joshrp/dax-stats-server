@@ -9,5 +9,13 @@
 			"name": "iplayer.tv.episode.*page",
 			"prev_page_type": "home"
 		}
+	},{
+		"id": 53362,
+		"name": "category-stream",
+		"eventFilter": 12070,
+		"params": {
+			"prev_page_type": "categories",
+			"PPVO": "iplayer.tv.categories.history.page"
+		}
 	}
 ]
