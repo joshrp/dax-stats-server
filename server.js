@@ -3,7 +3,8 @@ var request = require('request'),
 		server = restify.createServer(),
 		stats = {},
 		feeds = require('./feeds'),
-		config = require('./config')
+		config = require('./config'),
+		deepExtend = require('deep-extend')
 
 
 var buildDaxUrl = function (feed) {
@@ -12,10 +13,11 @@ var buildDaxUrl = function (feed) {
 		itemId: feed.id,
 		params: [],
 		site: config.site,
+		eventFilterId: (feed.eventfilterid ? ('&eventfilterid='+feed.eventFilter) : ''),
 		password: config.password,
 		username: config.username,
-		startDate: 'today',
-		endDate: 'today'
+		startDate: 'yesterday',
+		endDate: 'yesterday'
 	}
 	Object.keys(feed.params).forEach(function (k) {
 		replacements.params.push(k + ':' + feed.params[k]);
@@ -26,13 +28,38 @@ var buildDaxUrl = function (feed) {
 		baseUrl = baseUrl.replace('{' + k + '}', replacements[k]);
 	});
 
-	return baseUrl;
+	return baseUrl + '';
 }
 
+var expandedFeeds = [];
+
 feeds.forEach(function (feed) {
+	if (!feed.vary) {
+		expandedFeeds.push(feed);
+		return
+	}
+
+	feed.vary.forEach(function (args) {
+		var newFeed = deepExtend({}, feed);
+		args.forEach(function (arg, i) {
+			var replacement = new RegExp('\\{\\$' + (i+1) + '\\}', 'gi');
+			newFeed.name = newFeed.name.replace(replacement, arg).replace(/_+/g, '-');
+			for (param in newFeed.params) {
+				newFeed.params[param] = newFeed.params[param].replace(replacement, arg);
+			}
+		})
+		expandedFeeds.push(newFeed);
+	});
+});
+
+expandedFeeds.forEach(function (feed) {
 	stats[feed.name] = false;
-	console.log('fetching:',buildDaxUrl(feed))
-	request(buildDaxUrl(feed), function (err, resp, body) {
+	var url = buildDaxUrl(feed);
+
+	console.log('fetching:"'+url+'"\n ')
+	var timeStart = new Date().getTime();
+
+	request(url, function (err, resp, body) {
 		if (err) {
 		 	throw err;
 		}
@@ -41,9 +68,11 @@ feeds.forEach(function (feed) {
 			msg = ''
 			if (err && err.ERROR)
 				msg = err.ERROR;
-			throw new Error('Error fetching data. Code: '+resp.statusCode+'. Message: '+msg);
+			throw new Error('Error fetching data for ' + feed.name + ' using ' + url  + '. Code: '+resp.statusCode+'. Message: '+msg);
 		}
 		stats[feed.name] = JSON.parse(body).reportitems.reportitem[0].rows.r;
+		var timeEnd = new Date().getTime();
+		console.log('Fetched',feed.name, 'in', timeEnd-timeStart+'ms')
 	});
 })
 

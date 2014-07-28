@@ -10,6 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "restify": "*",
-    "request": "*"
+    "request": "*",
+    "deep-extend": "~0.2.10"
   }
 }
