@@ -92,6 +92,10 @@ server.get('/stats/:name', function (req, res, next) {
 	}
 });
 
+server.get('/status', function (req, res, next) {
+	res.send(200);
+});
+
 server.listen(7080, function() {
   console.log('%s listening at %s', server.name, server.url);
 });
