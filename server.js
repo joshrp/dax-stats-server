@@ -3,7 +3,7 @@ var request = require('request'),
 		server = restify.createServer(),
 		stats = {},
 		feeds = require('./feeds'),
-		config = require('./config'),
+		config = require('./config').getConfig(),
 		deepExtend = require('deep-extend')
 
 
@@ -92,7 +92,7 @@ server.get('/stats/:name', function (req, res, next) {
 	}
 });
 
-server.listen(9615, function() {
+server.listen(7080, function() {
   console.log('%s listening at %s', server.name, server.url);
 });
 

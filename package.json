@@ -12,5 +12,7 @@
     "restify": "*",
     "request": "*",
     "deep-extend": "~0.2.10"
+  },
+  "devDependencies": {
   }
 }
