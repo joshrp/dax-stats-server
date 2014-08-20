@@ -33,9 +33,6 @@ grabConfig = function (componentConfigPath) {
 
 module.exports = {
     getConfig: function () {
-        return grabConfig('/etc/iplayer-dax-stats/component_configuration')
+        return grabConfig('./configuration.json')
     },
-    getTestConfig: function () {
-        return grabConfig('./component_configuration')
-    }
 }
