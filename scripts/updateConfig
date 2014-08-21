@@ -1,0 +1,22 @@
+#!/bin/bash
+
+clientCert=~/certificate.pem
+
+if [ -z "$1" ]; then
+	echo "No environment given. 'test' or 'live' required";
+	exit 1;
+fi
+if [ -z "$2" ]; then
+	echo "No config key given.";
+	exit 1;
+fi
+if [ -z "$3" ]; then
+	echo "No config value given.";
+	exit 1;
+fi
+
+env=$1
+key=$2
+value=$3
+
+curl --cert $clientCert -X PUT -H "Content-Type: application/json" -d "{\"value\": \"$value\", \"secure\":true}" https://api.live.bbc.co.uk/cosmos/env/$env/component/iplayer-dax-stats/configuration/$key
