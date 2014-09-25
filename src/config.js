@@ -33,6 +33,6 @@ grabConfig = function (componentConfigPath) {
 
 module.exports = {
     getConfig: function () {
-        return grabConfig('./configuration.json')
+        return grabConfig('../configuration.json')
     },
 }

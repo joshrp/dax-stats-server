@@ -56,7 +56,6 @@ expandedFeeds.forEach(function (feed) {
 	stats[feed.name] = false;
 	var url = buildDaxUrl(feed);
 
-	console.log('fetching:"'+url+'"\n ')
 	var timeStart = new Date().getTime();
 
 	request(url, function (err, resp, body) {

@@ -1,0 +1,128 @@
+[
+	{
+		"id": 51972,
+		"name": "homepage-stream",
+		"params": {
+			"app_version": "1*",
+			"app_type": "responsive",
+			"app_name": "iplayer",
+			"name": "iplayer.tv.episode.*page",
+			"prev_page_type": "home"
+		}
+	},
+	{
+		"id": 54219,
+		"name": "category-stream-{$1}",
+		"eventFilter": 12070,
+		"params": {
+			"prev_page_type": "categories",
+			"PP_layout": "stream",
+			"PPVO": "iplayer.tv.categories.{$1}.page"
+		},
+		"vary": [
+			["arts"],
+			["cbbc"],
+			["cbeebies"],
+			["comedy"],
+			["documentaries"],
+			["drama_and_soaps"],
+			["entertainment"],
+			["films"],
+			["food"],
+			["history"],
+			["music"],
+			["news"],
+			["science_and_nature"],
+			["sport"],
+			["audio_described"],
+			["signed"],
+			["northern_ireland"],
+			["scotland"],
+			["wales"]
+		]
+	},
+	{
+		"id": 54219,
+		"name": "channels-stream-{$1}",
+		"eventFilter": 12070,
+		"params": {
+			"prev_page_type": "channels",
+			"PP_layout": "stream",
+			"PPVO": "iplayer.tv.channels.{$1}.page"
+		},
+		"vary": [
+			["cbbc"],
+			["cbeebies"]
+		]
+	},
+	{
+		"id": 54219,
+		"name": "channels-stream-bbcone",
+		"eventFilter": 12070,
+		"params": {
+			"prev_page_type": "channels",
+			"PP_layout": "stream",
+			"PPVO": "iplayer.tv.channels.bbc_one.page"
+		}
+	},
+	{
+		"id": 54219,
+		"name": "channels-stream-bbctwo",
+		"eventFilter": 12070,
+		"params": {
+			"prev_page_type": "channels",
+			"PP_layout": "stream",
+			"PPVO": "iplayer.tv.channels.bbc_two.page"
+		}
+	},
+	{
+		"id": 54219,
+		"name": "channels-stream-bbcthree",
+		"eventFilter": 12070,
+		"params": {
+			"prev_page_type": "channels",
+			"PP_layout": "stream",
+			"PPVO": "iplayer.tv.channels.bbc_three.page"
+		}
+	},
+	{
+		"id": 54219,
+		"name": "channels-stream-bbcfour",
+		"eventFilter": 12070,
+		"params": {
+			"prev_page_type": "channels",
+			"PP_layout": "stream",
+			"PPVO": "iplayer.tv.channels.bbc_four.page"
+		}
+	},
+	{
+		"id": 54219,
+		"name": "channels-stream-bbcparliament",
+		"eventFilter": 12070,
+		"params": {
+			"prev_page_type": "channels",
+			"PP_layout": "stream",
+			"PPVO": "iplayer.tv.channels.bbc_parliament.page"
+		}
+	},
+	{
+		"id": 54219,
+		"name": "channels-stream-bbcalba",
+		"eventFilter": 12070,
+		"params": {
+			"prev_page_type": "channels",
+			"PP_layout": "stream",
+			"PPVO": "iplayer.tv.channels.bbc_alba.page"
+		}
+	},
+	{
+		"id": 54219,
+		"name": "channels-stream-bbcnews",
+		"eventFilter": 12070,
+		"params": {
+			"prev_page_type": "channels",
+			"PP_layout": "stream",
+			"PPVO": "iplayer.tv.channels.bbc_news24.page"
+		}
+	}
+]
