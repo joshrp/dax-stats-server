@@ -6,9 +6,11 @@ var request = require('request'),
 	config = require('./config').getConfig(),
 	deepExtend = require('deep-extend'),
 	startDate, endDate,
+	daxDateFormat = 'YYYYMMDD',
+	moment = require('moment'),
 	replay = require("replay")
 
-startDate = endDate = '20141001';
+startDate = endDate = moment('2014-10-01');
 
 var buildDaxUrl = function (feed) {
 	var baseUrl = config.baseDaxUrl;
@@ -19,8 +21,8 @@ var buildDaxUrl = function (feed) {
 		eventFilterId: (feed.eventfilterid ? ('&eventfilterid='+feed.eventFilter) : ''),
 		password: config.password,
 		username: config.username,
-		startDate: startDate,
-		endDate: endDate
+		startDate: startDate.format(daxDateFormat),
+		endDate: endDate.format(daxDateFormat)
 	}
 	Object.keys(feed.params).forEach(function (k) {
 		replacements.params.push(k + ':' + feed.params[k]);
@@ -90,11 +92,14 @@ server.get('/stats/:name', function (req, res, next) {
 	} else if (stats[name] === false) {
 		res.send(204);
 	} else {
-		res.json(stats[name]);
+		res.json({
+			stats: stats[name],
+			date: startDate.format('X')
+		});
 	}
 });
 
-server.get('/stats', function (req, res) {
+server.get('/status', function (req, res) {
 	var filled = {};
 
 	for (var feed in stats) {
@@ -105,15 +110,10 @@ server.get('/stats', function (req, res) {
 	}
 
 	res.json({
-		startDate: startDate,
-		endDate: endDate,
+		date: startDate.format('X'),
 		feeds: filled
 	});
-});
-
-server.get('/status', function (req, res, next) {
-	res.send(200);
-});
+})
 
 server.listen(config.port, function() {
   console.log('%s listening at %s', server.name, server.url);
