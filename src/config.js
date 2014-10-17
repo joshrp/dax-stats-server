@@ -1,7 +1,8 @@
 mainConfig = {
     baseDaxUrl: 'https://sitestatapi.com/v1/reportitems.xml?nrofrows=5000&itemid={itemId}&site={site}&startdate={startDate}&enddate={endDate}&client=bbc&user={username}&password={password}&format=json&parameters={params}{eventFilterId}',
     password: '',
-    username: ''
+    username: '',
+    port: 7081
 }
 
 args = process.argv.slice(2);

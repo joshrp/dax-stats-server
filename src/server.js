@@ -1,11 +1,14 @@
 var request = require('request'),
-		restify = require('restify'),
-		server = restify.createServer(),
-		stats = {},
-		feeds = require('./feeds'),
-		config = require('./config').getConfig(),
-		deepExtend = require('deep-extend')
+	restify = require('restify'),
+	server = restify.createServer(),
+	stats = {},
+	feeds = require('./feeds'),
+	config = require('./config').getConfig(),
+	deepExtend = require('deep-extend'),
+	startDate, endDate,
+	replay = require("replay")
 
+startDate = endDate = '20141001';
 
 var buildDaxUrl = function (feed) {
 	var baseUrl = config.baseDaxUrl;
@@ -16,8 +19,8 @@ var buildDaxUrl = function (feed) {
 		eventFilterId: (feed.eventfilterid ? ('&eventfilterid='+feed.eventFilter) : ''),
 		password: config.password,
 		username: config.username,
-		startDate: 'yesterday',
-		endDate: 'yesterday'
+		startDate: startDate,
+		endDate: endDate
 	}
 	Object.keys(feed.params).forEach(function (k) {
 		replacements.params.push(k + ':' + feed.params[k]);
@@ -91,11 +94,28 @@ server.get('/stats/:name', function (req, res, next) {
 	}
 });
 
+server.get('/stats', function (req, res) {
+	var filled = {};
+
+	for (var feed in stats) {
+		filled[feed] = {
+			fecthed: stats[feed].length > 0,
+			href: 'https://' + req.headers['x-forwarded-host'] + '/stats/' + feed,
+		}
+	}
+
+	res.json({
+		startDate: startDate,
+		endDate: endDate,
+		feeds: filled
+	});
+});
+
 server.get('/status', function (req, res, next) {
 	res.send(200);
 });
 
-server.listen(7080, function() {
+server.listen(config.port, function() {
   console.log('%s listening at %s', server.name, server.url);
 });
 
