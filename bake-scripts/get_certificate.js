@@ -14,8 +14,8 @@ key = new Buffer(config.secure_configuration.sslKey, 'base64').toString('ascii')
 config.secure_configuration.sslKey = null
 config.secure_configuration.sslCertificate = null
 
-certPath = '/etc/pki/tls/certs2/service.crt';
-keyPath = '/etc/pki/tls/certs2/service.key';
+certPath = '/etc/pki/tls/certs/service.crt';
+keyPath = '/etc/pki/tls/certs/service.key';
 
 fs.writeFileSync(certPath, cert);
 fs.writeFileSync(keyPath, key);

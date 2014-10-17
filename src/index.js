@@ -3,12 +3,12 @@ var request = require('request'),
 	server = restify.createServer(),
 	stats = {},
 	feeds = require('./feeds'),
-	config = require('./config').getConfig(),
+	config = require('config'),
 	deepExtend = require('deep-extend'),
 	startDate, endDate,
 	daxDateFormat = 'YYYYMMDD',
 	moment = require('moment'),
-	replay = require("replay")
+	replay = require('replay')
 
 startDate = endDate = moment('2014-10-01');
 

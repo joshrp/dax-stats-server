@@ -1,4 +1,5 @@
-var cluster = require('cluster');
+var cluster = require('cluster'),
+	config = require('config')
 
 // When this server module is run, it create a worker process which will
 // do all of the work (there will always be 2 processes (master and worker)).
