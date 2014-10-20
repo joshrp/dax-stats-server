@@ -130,7 +130,7 @@
         "HealthCheck": {
           "HealthyThreshold": "3",
           "Interval": "15",
-          "Target": "HTTP:7080/status",
+          "Target": "HTTP:7081/status",
           "Timeout": "10",
           "UnhealthyThreshold": "3"
         }
@@ -313,12 +313,12 @@
       "Properties": {
         "SecurityGroupIngress": [
           {
-            "ToPort": "7080",
+            "ToPort": "7081",
             "IpProtocol": "tcp",
             "SourceSecurityGroupId": {
               "Ref": "LoadBalancerSecurityGroup"
             },
-            "FromPort": "7080"
+            "FromPort": "7081"
           },
           {
             "ToPort": "7443",

@@ -1,5 +1,6 @@
 {
     "name": "iplayer-dax-stats",
+    "port": 7081,
     "handle": [
         {
             "path": "/",
