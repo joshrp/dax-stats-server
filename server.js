@@ -9,9 +9,9 @@ var cluster = require('cluster'),
 if (cluster.isMaster) {
   // create a worker process
   var worker = cluster.fork();
-  console.log(worker.id)
+  console.log('new worker', worker.id)
   cluster.on('exit', function (worker) {
-  	console.log('dead')
+  	console.log('worker', worker.id, 'died')
     // create a new worker process
     worker = cluster.fork();
   	console.log('new workder', worker.id)

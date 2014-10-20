@@ -7,8 +7,7 @@ var request = require('request'),
 	deepExtend = require('deep-extend'),
 	startDate, endDate,
 	daxDateFormat = 'YYYYMMDD',
-	moment = require('moment'),
-	replay = require('replay')
+	moment = require('moment')
 
 startDate = endDate = moment('2014-10-01');
 

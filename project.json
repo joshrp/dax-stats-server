@@ -10,6 +10,7 @@
         }
     ],
     "packaging" : {
-        "type" : "nodejs_service"
+        "type" : "nodejs_service",
+        "application_port": 7081
     }
 }
