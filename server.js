@@ -10,11 +10,19 @@ if (cluster.isMaster) {
   // create a worker process
   var worker = cluster.fork();
   console.log('new worker', worker.id)
+
+  var deaths = 0;
   cluster.on('exit', function (worker) {
   	console.log('worker', worker.id, 'died')
-    // create a new worker process
-    worker = cluster.fork();
-  	console.log('new workder', worker.id)
+    deaths++;
+
+    if (deaths > 5) {
+      throw new Error('Worker died too many times, not restarting')
+    } else {
+      // create a new worker process
+      worker = cluster.fork();
+      console.log('new workder', worker.id)
+    }
   });
 } else {
   require('./src/index');

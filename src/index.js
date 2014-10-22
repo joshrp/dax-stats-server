@@ -9,7 +9,7 @@ var request = require('request'),
 	daxDateFormat = 'YYYYMMDD',
 	moment = require('moment')
 
-startDate = endDate = moment('2014-10-22');
+startDate = endDate = moment('2014-10-21');
 
 var buildDaxUrl = function (feed) {
 	var baseUrl = config.baseDaxUrl;
