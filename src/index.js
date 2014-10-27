@@ -4,10 +4,27 @@ var restify = require('restify'),
 	Feeds = require('./Feeds'),
 	Stats = require('./Stats'),
 	moment = require('moment'),
-	currentStatsDate = moment('2014-10-26');
+	schedule = require('node-schedule'),
+	currentStatsDate = {},
+	stats = {},
+	feeds = [];
 
-feeds = new Feeds(currentStatsDate).getAll()
-var stats = new Stats(feeds);
+
+function refreshStats () {
+	currentStatsDate = moment().subtract(1, 'days');
+
+	feeds = new Feeds(currentStatsDate).getAll()
+	stats = new Stats(feeds);
+	console.log(arguments)
+}
+
+// Setup a rule to call function at 2:00am every day
+var rule = new schedule.RecurrenceRule();
+rule.hour = 3;
+
+var j = schedule.scheduleJob(rule, refreshStats);
+
+refreshStats();
 
 server.use(restify.CORS({
     credentials: true
