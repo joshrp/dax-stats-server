@@ -1,41 +1,13 @@
-var request = require('request'),
-	restify = require('restify'),
+var restify = require('restify'),
 	server = restify.createServer(),
-	stats = {},
 	config = require('config'),
 	Feeds = require('./Feeds'),
-	currentStatsDate,
-	moment = require('moment')
+	Stats = require('./Stats'),
+	moment = require('moment'),
+	currentStatsDate = moment('2014-10-26');
 
-currentStatsDate = moment('2014-10-28');
-
-feeds = new Feeds(currentStatsDate)
-
-feeds.getAll().forEach(function (feed) {
-	stats[feed.name] = false;
-
-	var timeStart = new Date().getTime();
-
-	request(feed.url, function (err, resp, body) {
-		var msg, respErr;
-		if (err) {
-		 	throw err;
-		}
-		respErr = JSON.parse(body);
-		if (resp.statusCode === 400 && respErr && respErr.ERROR && respErr.ERROR === 'No data') {
-			stats[feed.name] = [];
-		} else if (resp.statusCode !== 200)  {
-			msg = ''
-			if (respErr && respErr.ERROR)
-				msg = respErr.ERROR;
-			throw new Error('Error fetching data for ' + feed.name + ' using ' + feed.url  + '. Code: '+resp.statusCode+'. Message: '+msg);
-		} else {
-			stats[feed.name] = JSON.parse(body).reportitems.reportitem[0].rows.r;
-		}
-		var timeEnd = new Date().getTime();
-		console.log('Fetched',feed.name, 'in', timeEnd-timeStart+'ms')
-	});
-})
+feeds = new Feeds(currentStatsDate).getAll()
+var stats = new Stats(feeds);
 
 server.use(restify.CORS({
     credentials: true
@@ -43,18 +15,19 @@ server.use(restify.CORS({
 
 server.get('/stats/:name', function (req, res, next) {
 	var name = req.params.name;
-	if (!(name in stats)) {
+	var data = stats.getStats(name);
+	if (data === Stats.NOT_FOUND) {
 		// No idea what this is
 		res.send(404);
-	} else if (stats[name] === false) {
+	} else if (data === Stats.NOT_READY) {
 		// Stats not fetched yet
 		res.send(202);
-	} else if (stats[name].length === 0) {
+	} else if (data === Stats.NO_DATA) {
 		// No stats available
 		res.send(204);
 	} else {
 		res.json({
-			stats: stats[name],
+			stats: data,
 			date: currentStatsDate.format('X')
 		});
 	}
@@ -63,13 +36,15 @@ server.get('/stats/:name', function (req, res, next) {
 server.get('/status', function (req, res) {
 	var filled = {};
 
-	for (var feed in stats) {
-		filled[feed] = {
-			fecthed: stats[feed] !== false,
-			hasData: stats[feed].length > 0,
-			href: 'https://' + req.headers['x-forwarded-host'] + '/stats/' + feed,
+	feeds.forEach(function (feed) {
+		data = stats.getStats(feed.name);
+
+		filled[feed.name] = {
+			fecthed: data !== Stats.NOT_READY,
+			hasData: data !== Stats.NO_DATA,
+			href: 'https://' + req.headers['x-forwarded-host'] + '/stats/' + feed.name,
 		}
-	}
+	});
 
 	res.json({
 		date: currentStatsDate.format('X'),
