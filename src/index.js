@@ -33,6 +33,7 @@ server.use(restify.CORS({
 server.get('/stats/:name', function (req, res, next) {
 	var name = req.params.name;
 	var data = stats.getStats(name);
+
 	if (data === Stats.NOT_FOUND) {
 		// No idea what this is
 		res.send(404);

@@ -97,6 +97,16 @@
 	},
 	{
 		"id": 54219,
+		"name": "channels-stream-radio1",
+		"eventFilter": 12070,
+		"params": {
+			"prev_page_type": "channels",
+			"PP_layout": "stream",
+			"PPVO": "iplayer.tv.channels.bbc_radio_one.page"
+		}
+	},
+	{
+		"id": 54219,
 		"name": "channels-stream-bbcparliament",
 		"eventFilter": 12070,
 		"params": {
