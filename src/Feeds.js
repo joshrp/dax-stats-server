@@ -52,8 +52,9 @@ Feeds.prototype.buildUrl = function (feed) {
 		eventFilterId: (feed.eventfilterid ? ('&eventfilterid='+feed.eventFilter) : ''),
 		password: config.password,
 		username: config.username,
-		startDate: this.startDate.format(daxDateFormat),
-		endDate: this.endDate.format(daxDateFormat)
+		startDate: feed.startDate || this.startDate.format(daxDateFormat),
+		endDate: feed.endDate || this.endDate.format(daxDateFormat),
+		rowCount: feed.rowCount || 5000
 	}
 	Object.keys(feed.params).forEach(function (k) {
 		replacements.params.push(k + ':' + feed.params[k]);
